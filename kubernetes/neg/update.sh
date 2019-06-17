@@ -6,11 +6,11 @@ for i in $(seq 1 10000); do
   echo "$(date):  $i update"
   kubectl apply -f rc_update.ig.yaml
   
-  echo "sleep 5mins"
-  sleep 5m
+  echo "sleep 30mins"
+  sleep 30m
 
   echo "#################Counting unique responses"
-  for i in `seq 1 100`; do curl --connect-timeout 1 -s ${IP} && echo;  done  |sort | uniq -c
+   for i in `seq 1 100`; do curl --connect-timeout 1 -s ${IP} && echo;  done  |sort | uniq -c
   
 
 
