@@ -10,7 +10,7 @@ spec:
       maxSurge: 5%
       maxUnavailable: 5%
     type: RollingUpdate
-  replicas: 300
+  replicas: 20
   selector:
     matchLabels:
       run: hostname
