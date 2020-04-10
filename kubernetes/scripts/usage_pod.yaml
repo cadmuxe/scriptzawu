@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resource-usage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: resource-usage
+  template:
+    metadata:
+      labels:
+        app: resource-usage
+    spec:
+      hostNetwork: true
+      containers:
+      - name: resource
+        command: ["/usr/bin/python"]
+        args: ["/resource_usage.py", "--nodeproc=/host/proc", "--output=/host/output/", "test-fluentd,loggen"]
+        image: gcr.io/koonwah0-gke-dev/resource_usage:latest
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: "/host/output"
+            name: resource-usage
+          - mountPath: "/host/proc"
+            name: host-proc
+      volumes:
+      - hostPath:
+          path: /var/log/network/resource_usage
+          type: DirectoryOrCreate
+        name: resource-usage
+      - hostPath:
+          path: /proc
+          type: Directory
+        name: host-proc
