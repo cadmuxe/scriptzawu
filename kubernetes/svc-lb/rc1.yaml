@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: hostname
+  name: hostname1
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 5%
+      maxUnavailable: 5%
+    type: RollingUpdate
+  replicas: 50
+  selector:
+    matchLabels:
+      run: hostname1
+  template:
+    metadata:
+      labels:
+        run: hostname1
+    spec:
+      terminationGracePeriodSeconds: 60
+      restartPolicy: Always
+      containers:
+      - image: gcr.io/kubernetes-e2e-test-images/serve-hostname:1.1
+        name: host1
+        command:
+        - /bin/sh
+        - -c
+        - /serve_hostname -http=true -udp=false -port=80
+        ports:
+        - protocol: TCP
+          containerPort: 80
+        resources:
+            requests:
+              cpu: 1m
+              memory: 0Mi
+

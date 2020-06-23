@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: server-pod
+spec:
+  restartPolicy: Never
+  containers:
+    - name: porter
+      image: gcr.io/kubernetes-e2e-test-images/porter-busybox:1.0
+      env:
+      - name: SERVE_PORT_8080
+        value: SERVE_PORT_8080
+      - name: SERVE_PORT_7985
+        value: SERVE_PORT_7985
+      ports:
+      - containerPort: 8080
+        name: server-8080
+        protocol: TCP
+      - containerPort: 7985
+        name: server-7985
+        protocol: TCP
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client-pause-pod
+spec:
+  restartPolicy: Never
+  containers:
+    - name: busybox
+      image: k8s.gcr.io/busybox:latest
+      command: ["/bin/sh"]
+      args: ["-c", "while sleep 3600; do :; done"]
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client-pause-pod1
+spec:
+  restartPolicy: Never
+  containers:
+    - name: busybox
+      image: k8s.gcr.io/busybox:latest
+      command: ["/bin/sh"]
+      args: ["-c", "while sleep 3600; do :; done"]
+

@@ -28,12 +28,12 @@ outputpath = args.output
 default_window = 2
 
 files = {}
-all_file = open(os.path.join( outputpath,"all-usage.txt"), "a", buffering=1)
+all_file = open(os.path.join( outputpath,"all-usage.txt"), "w", buffering=1)
 all_header = "Time"
 mpstat_file = None
 
 for p in pods:
-  f = open( os.path.join( outputpath,"%s-usage.txt" % p), "a", buffering=1)
+  f = open( os.path.join( outputpath,"%s-usage.txt" % p), "w", buffering=1)
   files[p] = f
   header = " \t workingSetMBs-{pod} \t usageMBs-{pod} \t usageMillisecondCores-{pod} \t usageCoreMilliseconds-{pod}".format(pod=p)
   out = "Time" + header + " \n"
@@ -42,7 +42,7 @@ for p in pods:
 
 if nodeproc:
   psutil.PROCFS_PATH = nodeproc
-  mpstat_file = open(os.path.join( outputpath, "mpstat-usage.txt"), "a", buffering=1)
+  mpstat_file = open(os.path.join( outputpath, "mpstat-usage.txt"), "w", buffering=1)
   header = " \t %cpu_total \t mem_used \t mem_buf \t mem_cache"
   out = "Time" + header + " \n"
   all_header += header

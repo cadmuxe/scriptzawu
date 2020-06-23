@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hostname
+spec:
+  ports:
+  - port: 80
+    name: host1
+    protocol: TCP
+    targetPort: 8000
+  - port: 90
+    name: host2
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    run: hostname
+  sessionAffinity: None
+  type: LoadBalancer
+  externalTrafficPolicy: Local
